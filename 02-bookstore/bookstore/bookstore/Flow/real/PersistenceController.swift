@@ -8,7 +8,14 @@
 import CoreData
 
 
-// MARK: CoreData Setting
+// MARK: actor
+@globalActor
+actor Database {
+    static var shared = Database()
+}
+
+
+// MARK: Controller
 @Database
 struct PersistenceController {
     // MARK: core

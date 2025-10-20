@@ -9,9 +9,10 @@ import Foundation
 
 // MARK: Object
 @MainActor @Observable
-internal final class Item: Sendable {
+internal final class Item: Sendable, Identifiable {
     // MARK: core
-    init(owner: ItemBoard.ID, sourceId: UUID, timestamp: Date) {
+    private(set) var isValid: Bool = true
+    init(owner: ItemBoard, sourceId: UUID, timestamp: Date) {
         self.owner = owner
         self.sourceId = sourceId
         self.timestamp = timestamp
@@ -19,50 +20,31 @@ internal final class Item: Sendable {
     
     
     // MARK: state
-    internal nonisolated let id = ID()
-    internal nonisolated let owner: ItemBoard.ID
+    internal nonisolated let id = UUID()
+    internal nonisolated let owner: ItemBoard
     
     internal nonisolated let sourceId: UUID
     internal nonisolated let timestamp: Date
+    internal var fomattedTimestamp: String {
+        timestamp.formatted(.dateTime.year().month().day().hour().minute().second())
+    }
     
     
     // MARK: action
-    internal func remove() {
+    internal func remove() async {
+        guard isValid else { return }
+        
+        // capture
+        let itemBoxFlow = owner.itemBoxFlow
+        
         // compute
-        // Flow를 통해 외부 모델에서 ItemModel을 제거
+        let snapshot = ItemSnapshot(id: sourceId, timestamp: self.timestamp)
         
+        await itemBoxFlow.deleteItemModel(snapshot)
+
         // mutate
-        // 현재 시스템에서 Item을 제거
-    }
-    
-    
-    // MARK: value
-    @MainActor
-    internal struct ID: Sendable, Hashable {
-        // MARK: core
-        internal let rawValue = UUID()
-        internal nonisolated init() { }
+        self.owner.items.removeAll { $0.id == self.id }
         
-        // MARK: operator
-        internal var isExist: Bool {
-            fatalError()
-        }
-        internal var ref: Item? {
-            fatalError()
-        }
-    }
-}
-
-
-// MARK: ObjectManager
-@MainActor @Observable
-fileprivate final class ItemManager: Sendable {
-    // MARK: state
-    static var container: [Item.ID: Item] = [:]
-    static func register(_ object: Item) {
-        self.container[object.id] = object
-    }
-    static func unregister(_ id: Item.ID) {
-        self.container[id] = nil
+        self.isValid = false
     }
 }

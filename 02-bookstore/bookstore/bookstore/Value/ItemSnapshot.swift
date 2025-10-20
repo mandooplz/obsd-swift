@@ -8,7 +8,7 @@ import Foundation
 
 
 // MARK: value
-internal struct ItemSnapshot: Sendable, Hashable {
+nonisolated struct ItemSnapshot: Sendable, Hashable {
     internal let id: UUID
     internal let timestamp: Date
     

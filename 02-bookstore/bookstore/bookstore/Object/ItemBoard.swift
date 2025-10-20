@@ -11,74 +11,52 @@ import Foundation
 @MainActor @Observable
 internal final class ItemBoard: Sendable {
     // MARK: core
+    init(mode: SystemMode = .test) {
+        switch mode {
+        case .test:
+            self.itemBoxFlow = ItemBoxFlowMock()
+        case .real:
+            self.itemBoxFlow = ItemBoxFlow()
+        }
+    }
     
     
     // MARK: state
-    internal nonisolated let id: ID = ID()
+    internal nonisolated let id = UUID()
+    internal nonisolated let itemBoxFlow: any ItemBoxFlowInterface
     
-    internal var items: [Item.ID] = []
-    
-    private(set) var itemQueue: [UUID: Ticket] = [:]
-    internal func addTicket(_ ticket: Ticket) {
-        self.itemQueue[ticket.id] = ticket
-    }
+    internal var items: [Item] = []
     
     
     // MARK: action
-    public func processTickets() {
+    public func createItem() async {
+        // compute
+        await itemBoxFlow.addItemModel()
+        let itemSnapshots = await itemBoxFlow.getItemModels()
+        
         // mutate
+        let newItems = itemSnapshots
+            .map { Item(owner: self, sourceId: $0.id, timestamp: $0.timestamp) }
+        
+        self.items = newItems
     }
     
-    public func cleanTickets() {
+    public func fetchItems() async {
+        // compute
+        let itemSnapshots = await itemBoxFlow.getItemModels()
+        
         // mutate
+        let newItems = itemSnapshots
+            .map { Item(owner: self, sourceId: $0.id, timestamp: $0.timestamp) }
+        
+        self.items = newItems
     }
-    
     
     
     // MARK: value
-    @MainActor
-    internal struct ID: Sendable, Hashable {
-        // MARK: core
-        internal let rawValue: UUID = UUID()
-        nonisolated init() { }
-        
-        internal var isExist: Bool {
-            ItemBoardManager.container[self] != nil
-        }
-        internal var ref: ItemBoard? {
-            ItemBoardManager.container[self]
-        }
-    }
-    
     internal struct Ticket: Sendable, Hashable {
         // MARK: core
-        internal let id: UUID
-        internal let status: Status
-        
-        internal init() {
-            self.init(id: UUID(), status: .unhandled)
-        }
-        private init(id: UUID, status: Status) {
-            self.id = id
-            self.status = status
-        }
-        
-        
-        // MARK: value
-        internal enum Status {
-            case unhandled
-            case done
-        }
-    }
-}
-
-
-// MARK: ObjectManager
-@MainActor @Observable
-fileprivate final class ItemBoardManager: Sendable {
-    // MARK: state
-    static var container: [ItemBoard.ID: ItemBoard] = [:]
-    static func register(_ object: ItemBoard) {
-        container[object.id] = object
+        internal let id: UUID = UUID()
+        nonisolated init() { }
     }
 }
