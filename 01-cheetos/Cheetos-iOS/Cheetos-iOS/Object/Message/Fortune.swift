@@ -5,7 +5,6 @@
 //  Created by 김민우 on 8/28/25.
 //
 import Foundation
-import Values
 
 
 // MARK: Object
@@ -58,7 +57,7 @@ public final class Fortune: MessageInterface {
     
     // MARK: value
     @MainActor
-    public struct ID: MessageIDRepresentable {
+    public struct ID: MessageIDRepresentable, Hashable {
         public let rawValue = UUID()
         nonisolated init() { }
         

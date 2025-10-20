@@ -6,7 +6,7 @@
 //
 import Testing
 import Foundation
-import Cheetos
+import Cheetos_iOS
 
 
 // MARK: tests

@@ -6,12 +6,18 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		CEECC10C2E6080C40020F51E /* Cheetos in Frameworks */ = {isa = PBXBuildFile; productRef = CEECC10B2E6080C40020F51E /* Cheetos */; };
-		CEECC10E2E6080C40020F51E /* Values in Frameworks */ = {isa = PBXBuildFile; productRef = CEECC10D2E6080C40020F51E /* Values */; };
-/* End PBXBuildFile section */
+/* Begin PBXContainerItemProxy section */
+		CE126ED82EA6014F007764C2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CED4E0A92E60567300B01262 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = CED4E0B02E60567300B01262;
+			remoteInfo = "Cheetos-iOS";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		CE126ED42EA6014F007764C2 /* Cheetos-iOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Cheetos-iOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CED4E0B12E60567300B01262 /* Cheetos-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Cheetos-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -26,6 +32,11 @@
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
+		CE126ED52EA6014F007764C2 /* Cheetos-iOSTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = "Cheetos-iOSTests";
+			sourceTree = "<group>";
+		};
 		CED4E0B32E60567300B01262 /* Cheetos-iOS */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
@@ -37,12 +48,17 @@
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		CE126ED12EA6014F007764C2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CED4E0AE2E60567300B01262 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CEECC10E2E6080C40020F51E /* Values in Frameworks */,
-				CEECC10C2E6080C40020F51E /* Cheetos in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +69,7 @@
 			isa = PBXGroup;
 			children = (
 				CED4E0B32E60567300B01262 /* Cheetos-iOS */,
+				CE126ED52EA6014F007764C2 /* Cheetos-iOSTests */,
 				CED4E0B22E60567300B01262 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,6 +78,7 @@
 			isa = PBXGroup;
 			children = (
 				CED4E0B12E60567300B01262 /* Cheetos-iOS.app */,
+				CE126ED42EA6014F007764C2 /* Cheetos-iOSTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -68,6 +86,29 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		CE126ED32EA6014F007764C2 /* Cheetos-iOSTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE126EDA2EA6014F007764C2 /* Build configuration list for PBXNativeTarget "Cheetos-iOSTests" */;
+			buildPhases = (
+				CE126ED02EA6014F007764C2 /* Sources */,
+				CE126ED12EA6014F007764C2 /* Frameworks */,
+				CE126ED22EA6014F007764C2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CE126ED92EA6014F007764C2 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				CE126ED52EA6014F007764C2 /* Cheetos-iOSTests */,
+			);
+			name = "Cheetos-iOSTests";
+			packageProductDependencies = (
+			);
+			productName = "Cheetos-iOSTests";
+			productReference = CE126ED42EA6014F007764C2 /* Cheetos-iOSTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		CED4E0B02E60567300B01262 /* Cheetos-iOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CED4E0C42E60567400B01262 /* Build configuration list for PBXNativeTarget "Cheetos-iOS" */;
@@ -85,8 +126,6 @@
 			);
 			name = "Cheetos-iOS";
 			packageProductDependencies = (
-				CEECC10B2E6080C40020F51E /* Cheetos */,
-				CEECC10D2E6080C40020F51E /* Values */,
 			);
 			productName = "Cheetos-iOS";
 			productReference = CED4E0B12E60567300B01262 /* Cheetos-iOS.app */;
@@ -102,6 +141,10 @@
 				LastSwiftUpdateCheck = 2600;
 				LastUpgradeCheck = 2600;
 				TargetAttributes = {
+					CE126ED32EA6014F007764C2 = {
+						CreatedOnToolsVersion = 26.0;
+						TestTargetID = CED4E0B02E60567300B01262;
+					};
 					CED4E0B02E60567300B01262 = {
 						CreatedOnToolsVersion = 26.0;
 					};
@@ -117,7 +160,6 @@
 			mainGroup = CED4E0A82E60567300B01262;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				CEECC10A2E6080C40020F51E /* XCLocalSwiftPackageReference "../Cheetos" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CED4E0B22E60567300B01262 /* Products */;
@@ -125,11 +167,19 @@
 			projectRoot = "";
 			targets = (
 				CED4E0B02E60567300B01262 /* Cheetos-iOS */,
+				CE126ED32EA6014F007764C2 /* Cheetos-iOSTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		CE126ED22EA6014F007764C2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CED4E0AF2E60567300B01262 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -140,6 +190,13 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		CE126ED02EA6014F007764C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CED4E0AD2E60567300B01262 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -149,7 +206,57 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		CE126ED92EA6014F007764C2 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = CED4E0B02E60567300B01262 /* Cheetos-iOS */;
+			targetProxy = CE126ED82EA6014F007764C2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		CE126EDB2EA6014F007764C2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3X262XJF5T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.budjam.Cheetos-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cheetos-iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cheetos-iOS";
+			};
+			name = Debug;
+		};
+		CE126EDC2EA6014F007764C2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 3X262XJF5T;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.budjam.Cheetos-iOSTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Cheetos-iOS.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Cheetos-iOS";
+			};
+			name = Release;
+		};
 		CED4E0C52E60567400B01262 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -338,6 +445,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		CE126EDA2EA6014F007764C2 /* Build configuration list for PBXNativeTarget "Cheetos-iOSTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CE126EDB2EA6014F007764C2 /* Debug */,
+				CE126EDC2EA6014F007764C2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CED4E0AC2E60567300B01262 /* Build configuration list for PBXProject "Cheetos-iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -357,24 +473,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCLocalSwiftPackageReference section */
-		CEECC10A2E6080C40020F51E /* XCLocalSwiftPackageReference "../Cheetos" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../Cheetos;
-		};
-/* End XCLocalSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		CEECC10B2E6080C40020F51E /* Cheetos */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Cheetos;
-		};
-		CEECC10D2E6080C40020F51E /* Values */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Values;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CED4E0A92E60567300B01262 /* Project object */;
 }

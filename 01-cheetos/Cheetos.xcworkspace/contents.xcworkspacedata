@@ -5,9 +5,6 @@
       location = "group:Cheetos-iOS/Cheetos-iOS.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Cheetos">
-   </FileRef>
-   <FileRef
       location = "group:Cheetos.xctestplan">
    </FileRef>
 </Workspace>

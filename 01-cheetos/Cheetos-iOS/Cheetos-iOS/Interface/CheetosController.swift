@@ -6,7 +6,7 @@
 //
 import UIKit
 import Observation
-import Cheetos
+
 
 // 루트 화면
 final class CheetosController: UIViewController {

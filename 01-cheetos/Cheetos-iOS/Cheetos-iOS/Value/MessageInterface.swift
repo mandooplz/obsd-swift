@@ -20,8 +20,9 @@ public protocol MessageInterface: Sendable {
     var isLoading: Bool { get }
 }
 
+
 @MainActor
-public protocol MessageIDRepresentable: Sendable, Hashable {
+public protocol MessageIDRepresentable: Sendable {
     associatedtype Object: MessageInterface
     
     var rawValue: UUID { get }
