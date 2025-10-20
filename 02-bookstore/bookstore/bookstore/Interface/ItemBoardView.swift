@@ -8,30 +8,37 @@
 import SwiftUI
 import CoreData
 
-struct ContentView: View {
-    @Environment(\.managedObjectContext) private var viewContext
+struct ItemBoardView: View {
+    // MARK: viewmodel
+    @State var itemBoardRef = ItemBoard()
 
     @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Item.timestamp, ascending: true)],
+        sortDescriptors: [NSSortDescriptor(keyPath: \ItemModel.timestamp, ascending: true)],
         animation: .default)
-    private var items: FetchedResults<Item>
+    private var items: FetchedResults<ItemModel>
 
+    
+    // MARK: view
     var body: some View {
         NavigationView {
             List {
-                ForEach(items) { item in
+                ForEach(itemBoardRef.items, id: \.rawValue) { item in
                     NavigationLink {
                         Text("Item at \(item.timestamp!, formatter: itemFormatter)")
                     } label: {
                         Text(item.timestamp!, formatter: itemFormatter)
                     }
+                    
+                    .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                        Button {
+                            print("삭제합니다.")
+                        } label: {
+                            Label("삭제", systemImage: "trash.fill")
+                        }
+                    }
                 }
-                .onDelete(perform: deleteItems)
             }
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    EditButton()
-                }
                 ToolbarItem {
                     Button(action: addItem) {
                         Label("Add Item", systemImage: "plus")
@@ -44,7 +51,7 @@ struct ContentView: View {
 
     private func addItem() {
         withAnimation {
-            let newItem = Item(context: viewContext)
+            let newItem = ItemModel(context: viewContext)
             newItem.timestamp = Date()
 
             do {
@@ -82,5 +89,5 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-    ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+    ItemBoardView()
 }
