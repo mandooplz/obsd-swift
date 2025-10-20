@@ -122,12 +122,3 @@ swift run Sandbox
 ## License
 
 Apache License 2.0 (see `LICENSE`).
-
-```
-
----
-
-👉 이렇게 하면 `obsd-csharp`와 동일한 톤과 구조를 유지하면서, Swift 개발 환경에 맞춘 `obsd-swift` README가 됩니다.  
-
-혹시 민우님은 `obsd-swift`도 **다중 OS 지원 상태(예: macOS, Ubuntu, Windows, Android)** 표까지 README에 추가하고 싶으신가요? (Swift 공식 저장소처럼 CI 상태 뱃지 표도 포함 가능)
-```
