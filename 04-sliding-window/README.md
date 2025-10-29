@@ -10,15 +10,15 @@
 
 ## 프로젝트 구성
 
-- `Sources/NumberData/NumberData.swift`: 입력 배열과 윈도우 크기, 결과를 관리하는 소유 객체입니다. `setUpWindow()`를 통해 초기 윈도우를 설정합니다.
-- `Sources/NumberData/Window.swift`: 실제 윈도우를 표현하는 객체입니다. 현재 창의 값들을 유지하고 `moveRight()`로 오른쪽으로 이동하며, `addMaxValue()`를 통해 최대값을 `NumberData`에 전달합니다.
+- `Sources/SlidingWindowData/SlidingWindowData.swift`: 입력 배열과 윈도우 크기, 결과를 관리하는 소유 객체입니다. `setUpWindow()`를 통해 초기 윈도우를 설정합니다.
+- `Sources/SlidingWindowData/Window.swift`: 실제 윈도우를 표현하는 객체입니다. 현재 창의 값들을 유지하고 `moveRight()`로 오른쪽으로 이동하며, `addMaxValue()`를 통해 최대값을 `SlidingWindowData`에 전달합니다.
 - `Sources/04-sliding-window/_4_sliding_window.swift`: 두 객체를 묶어 실행하는 예제 `main`입니다. 환경 변수 또는 기본값을 이용해 최대값 배열을 출력합니다.
 
-두 객체는 책임을 분리한 채 협력합니다. `NumberData`는 도메인 데이터와 결과 관리에 집중하고, `Window`는 순회 상태와 이동 로직을 담당합니다.
+두 객체는 책임을 분리한 채 협력합니다. `SlidingWindowData`는 도메인 데이터와 결과 관리에 집중하고, `Window`는 순회 상태와 이동 로직을 담당합니다.
 
 ## 동작 방식
 
-1. `NumberData`를 전체 숫자 배열과 윈도우 크기와 함께 초기화합니다.
+1. `SlidingWindowData`를 전체 숫자 배열과 윈도우 크기와 함께 초기화합니다.
 2. `setUpWindow()`가 첫 윈도우를 구성하고 초기 최대값을 결과에 추가합니다.
 3. 클라이언트 코드(`main`)가 윈도우를 오른쪽으로 이동시키며 각 단계마다 최대값을 누적합니다.
 

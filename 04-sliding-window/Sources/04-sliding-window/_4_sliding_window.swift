@@ -1,7 +1,7 @@
 // The Swift Programming Language
 // https://docs.swift.org/swift-book
 import Foundation
-import NumberData
+import SlidingWindowData
 
 @main
 struct _4_sliding_window {
@@ -40,7 +40,7 @@ struct _4_sliding_window {
             return
         }
 
-        let data = NumberData(numbers: numbers, windowSize: windowSize)
+        let data = SlidingWindowData(numbers: numbers, windowSize: windowSize)
         data.setUpWindow()
 
         guard let window = data.window else {

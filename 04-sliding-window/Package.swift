@@ -13,10 +13,10 @@ let package = Package(
         // Targets can depend on other targets in this package and products from dependencies.
         .executableTarget(
             name: "04-sliding-window",
-            dependencies: ["NumberData"]
+            dependencies: ["SlidingWindowData"]
         ),
         .target(
-            name: "NumberData"
+            name: "SlidingWindowData"
         )
     ]
 )

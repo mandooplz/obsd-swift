@@ -9,7 +9,7 @@ import Foundation
 
 
 // MARK: Object
-public class NumberData {
+public class SlidingWindowData {
     // MARK: core
     public init(numbers: [Int], windowSize: Int) {
         self.numbers = numbers

@@ -10,14 +10,14 @@ import Foundation
 // MARK: Object
 public class Window {
     // MARK: core
-    public init(_ owner: NumberData, _ values: [Int]) {
+    public init(_ owner: SlidingWindowData, _ values: [Int]) {
         self.owner = owner
         self.values = values
         self.size = values.count
     }
     
     // MARK: state
-    let owner: NumberData
+    let owner: SlidingWindowData
     
     let size: Int
     var startPosition: Int = 0
