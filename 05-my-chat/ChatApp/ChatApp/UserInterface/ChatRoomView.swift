@@ -53,7 +53,6 @@ struct ChatRoomView: View {
             .listStyle(.plain)
             .refreshable {
                 await app.fetchMessages()
-                await app.subscribeServer()
             }
             .onChange(of: app.sortedMessages) { ids in
                 guard let last = ids.last else { return }

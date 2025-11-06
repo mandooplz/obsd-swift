@@ -85,7 +85,7 @@ final class ChatApp: Sendable {
         }
         
         do {
-            // compute
+            // compute -> 여기서 Flow를 제공한가.
             try await serverFlow.subscribe(
                 clientId: clientId,
                 onText: { [weak self] textData in

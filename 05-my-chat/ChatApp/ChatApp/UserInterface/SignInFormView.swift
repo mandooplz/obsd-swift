@@ -9,14 +9,17 @@ import SwiftUI
 import Observation
 
 
-// MARK: UserInterface
+// MARK: View
 struct SignInFormView: View {
+    // MARK: state
     @Bindable var form: SignInForm
     @State private var isSubmitting = false
     
+    
+    // MARK: body
     var body: some View {
-        List {
-            Section {
+        Form {
+            Section("계정 정보") {
                 TextField("이메일", text: $form.email)
                     .keyboardType(.emailAddress)
                     .textInputAutocapitalization(.never)
@@ -36,18 +39,36 @@ struct SignInFormView: View {
                     }
                 }
                 .disabled(isSubmitting)
-                .listRowSeparator(.hidden)
-                .listRowInsets(.init(top: 12, leading: 16, bottom: 12, trailing: 16))
+            }
+
+            Section {
+                NavigationLink {
+                    if let form = form.owner.signUpForm {
+                        SignUpFormView(form: form)
+                            .navigationTitle("회원가입")
+                    } else {
+                        ProgressView()
+                            .padding()
+                    }
+                } label: {
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("아직 계정이 없으신가요?")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                        HStack(spacing: 4) {
+                            Text("회원가입 하러 가기")
+                                .fontWeight(.semibold)
+                        }
+                    }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.vertical, 4)
+                }
             }
         }
-        .listStyle(.plain)
-        .listSectionSpacing(16)
-        .scrollContentBackground(.hidden)
-        .background(Color(.systemGroupedBackground))
     }
     
     private func submit() {
-        Task { @MainActor in
+        Task { 
             guard isSubmitting == false else { return }
             isSubmitting = true
             defer { isSubmitting = false }
