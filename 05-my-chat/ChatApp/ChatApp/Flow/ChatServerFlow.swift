@@ -13,27 +13,25 @@ private let logger = SwiftLogger("ChatServerFlow")
 // MARK: Flow
 actor ChatServerFlow {
     // MARK: value
-    private let baseURL: URL = URL(string: "http://172.30.1.69:8080")!
-    private let session: URLSession = .shared
-    private var webSocketTask: URLSessionWebSocketTask?
-    
     static let shared = ChatServerFlow()
     private init() { }
     
+    private let url = ChatServerURL()
     
-    // MARK: flow
+    
+    // MARK: Flow
     @concurrent
     func check() async throws {
         logger.start()
         
         logger.info("makeRequest")
-        let request = try makeRequest(path: nil, method: .get)
+        let request = try url.getHTTPRequest(path: nil, method: .get)
         
         logger.info("networking")
-        let (_, response) = try await session.data(for: request)
+        let (_, response) = try await request.getDataByURLSession()
         
-        logger.info("validate")
-        try validate(response: response)
+        logger.info("validate URLResponse")
+        try response.validateStatusCode()
         
         logger.end()
         return
@@ -43,55 +41,52 @@ actor ChatServerFlow {
     func addMessage(ticket: NewMsgTicket) async throws {
         logger.start()
         
-        logger.info("makeRequest")
-        var request = try makeRequest(path: "addMessage", method: .post)
+        logger.info("configure URLRequest")
+        let request = try url.getHTTPRequest(path: "addMessage", method: .post)
+            .addJSONBody(ticket)
         
-        logger.info("json encoding")
-        let encoder = makeJSONEncoder()
-        request.httpBody = try encoder.encode(ticket)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        logger.info("Send HTTPRequest")
+        let (_, response) = try await request.getDataByURLSession()
         
-        logger.info("networking")
-        let (_, response) = try await session.data(for: request)
-        
-        logger.info("validate")
-        try validate(response: response)
+        logger.info("URLResponse validation")
+        try response.validateStatusCode()
         
         logger.end()
     }
 
     @concurrent
     func register(credential: Credential) async throws {
-        var request = try makeRequest(path: "register", method: .post)
+        logger.start()
         
-        let encoder = makeJSONEncoder()
-        request.httpBody = try encoder.encode(credential)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        let (_, response) = try await session.data(for: request)
+        logger.info("Configure URLRequest")
+        let request = try url.getHTTPRequest(path: "register", method: .post)
+            .addJSONBody(credential)
+            
+        logger.info("Send HTTPRequest")
+        let (_, response) = try await request.getDataByURLSession()
         
-        try validate(response: response)
+        logger.info("URLResponse validate")
+        try response.validateStatusCode()
+        
+        logger.end()
     }
 
     @concurrent
     func authenticate(credential: Credential) async throws -> Bool {
         logger.start()
         
-        logger.info("makeRequest")
-        var request = try makeRequest(path: "auth", method: .post)
+        logger.info("Configure URLRequest")
+        let request = try url.getHTTPRequest(path: "auth", method: .post)
+            .addJSONBody(credential)
         
-        logger.info("encoding to json")
-        let encoder = makeJSONEncoder()
-        request.httpBody = try encoder.encode(credential)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        logger.info("Send HTTPRequest")
+        let (data, response) = try await request.getDataByURLSession()
         
-        logger.info("networking")
-        let (data, response) = try await session.data(for: request)
-        
-        logger.info("validate")
-        try validate(response: response)
+        logger.info("URLResponse validation")
+        try response.validateStatusCode()
         
         logger.info("decoding from json")
-        let decoder = JSONDecoder()
+        let decoder = JSON.decoder
         let result = try decoder.decode(Bool.self, from: data)
         
         logger.end()
@@ -101,22 +96,23 @@ actor ChatServerFlow {
     @concurrent
     func getMessages(credential: Credential) async throws -> [Message] {
         logger.start()
+        
+        logger.info("Configure URLRequest")
         let queryItems = [
             URLQueryItem(name: "email", value: credential.email),
             URLQueryItem(name: "password", value: credential.password)
         ]
         
-        logger.info("makeRequest")
-        let request = try makeRequest(path: "getMessages", method: .get, queryItems: queryItems)
+        let request = try url.getHTTPRequest(path: "getMessages", method: .get, queryItems: queryItems)
         
-        logger.info("urlsession.data")
-        let (data, response) = try await session.data(for: request)
+        logger.info("Send HTTPRequest")
+        let (data, response) = try await request.getDataByURLSession()
         
-        logger.info("validate")
-        try validate(response: response)
+        logger.info("Validate URLResponse")
+        try response.validateStatusCode()
         
-        logger.info("decode json")
-        let decoder = makeJSONDecoder()
+        logger.info("Parsing Data to [Message]")
+        let decoder = JSON.decoder
         let result: [Message]
         if data.isEmpty {
             result = []
@@ -134,16 +130,24 @@ actor ChatServerFlow {
         onData: (@Sendable (Data) -> Void)? = nil,
         onClose: (@Sendable (Error?) -> Void)? = nil
     ) async throws {
+        logger.start()
         let query = [URLQueryItem(name: "client", value: clientId.uuidString)]
 
-        let request = try makeRequest(path: "subscribe", method: .post, queryItems: query)
-        let (_, response) = try await session.data(for: request)
-        try validate(response: response)
+        logger.info("Start WebSocketSession")
+        let task = try url.startWSTask(path: "ws", queryItems: query)
+        
+        logger.info("Configure URLRequest")
+        let request = try url.getHTTPRequest(path: "subscribe",
+                                             method: .post,
+                                             queryItems: query)
+        
+        logger.info("Send HTTPRequest to /subscribe")
+        let (_, response) = try await request.getDataByURLSession()
+        
+        logger.info("Validate URLResponse")
+        try response.validateStatusCode()
 
-        let socketURL = try makeWebSocketURL(path: "ws", queryItems: [URLQueryItem(name: "token", value: clientId.uuidString)])
-        let task = session.webSocketTask(with: socketURL)
-        self.webSocketTask = task
-        task.resume()
+        
 
         // 시작 즉시 수신 루프 연결
         startReceiveLoop(
@@ -153,94 +157,14 @@ actor ChatServerFlow {
             onClose: onClose
         )
     }
-}
-
-
-// MARK: Helper
-private extension ChatServerFlow {
-    enum HTTPMethod: String {
-        case get = "GET"
-        case post = "POST"
-    }
     
-    enum FlowError: Error {
-        case invalidURL(String)
-        case unexpectedResponse
-        case unexpectedStatusCode(Int)
-    }
-    
-    nonisolated func makeRequest(path: String?, method: HTTPMethod, queryItems: [URLQueryItem] = []) throws -> URLRequest {
-        // configure URL
-        var url = baseURL
-        if let path, path.isEmpty == false {
-            url.appendPathComponent(path)
-        }
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw FlowError.invalidURL(path ?? baseURL.path)
-        }
-        if queryItems.isEmpty == false {
-            components.queryItems = queryItems
-        }
-        guard let finalURL = components.url else {
-            throw FlowError.invalidURL(path ?? baseURL.path)
-        }
-        
-        
-        // configure URLRequest
-        var request = URLRequest(url: finalURL)
-        request.httpMethod = method.rawValue
-        
-        // return
-        return request
-    }
-    
-    nonisolated func makeWebSocketURL(path: String, queryItems: [URLQueryItem]) throws -> URL {
-        // configure URL
-        var url = baseURL
-        if path.isEmpty == false {
-            url.appendPathComponent(path)
-        }
-        guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-            throw FlowError.invalidURL(path)
-        }
-        components.scheme = "ws"
-        components.queryItems = queryItems.isEmpty ? nil : queryItems
-        guard let finalURL = components.url else {
-            throw FlowError.invalidURL(path)
-        }
-        
-        // return
-        return finalURL
-    }
-    
-    nonisolated func validate(response: URLResponse, allowedStatusCodes: Range<Int> = 200..<300) throws {
-        guard let httpResponse = response as? HTTPURLResponse else {
-            throw FlowError.unexpectedResponse
-        }
-        guard allowedStatusCodes.contains(httpResponse.statusCode) else {
-            throw FlowError.unexpectedStatusCode(httpResponse.statusCode)
-        }
-    }
-
-    nonisolated func makeJSONEncoder() -> JSONEncoder {
-        let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = .iso8601
-        return encoder
-    }
-
-    nonisolated func makeJSONDecoder() -> JSONDecoder {
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        return decoder
-    }
-
-    nonisolated func startReceiveLoop(
+    private func startReceiveLoop(
         task: URLSessionWebSocketTask,
         onText: (@Sendable (String) -> Void)? = nil,
         onData: (@Sendable (Data) -> Void)? = nil,
         onClose: (@Sendable (Error?) -> Void)? = nil
     ) {
-        func _loop() {
+        @Sendable func _loop() {
             task.receive { result in
                 switch result {
                 case .failure(let error):
@@ -260,23 +184,5 @@ private extension ChatServerFlow {
             }
         }
         _loop()
-    }
-
-    // 간단한 keep-alive. 서버가 ping/pong을 요구하지 않는다면 생략해도 무방함.
-    nonisolated func schedulePing(_ task: URLSessionWebSocketTask) {
-        // URLSessionWebSocketTask는 내부적으로도 핑/퐁을 처리하지만,
-        // 명시적으로 30초마다 핑을 보내 연결을 유지합니다.
-        let interval: TimeInterval = 30
-        func _ping() {
-            task.sendPing { _ in
-                // 오류가 있어도 다음 핑을 예약 (연결이 닫히면 자연스럽게 중단)
-                DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
-                    _ping()
-                }
-            }
-        }
-        DispatchQueue.global().asyncAfter(deadline: .now() + interval) {
-            _ping()
-        }
     }
 }

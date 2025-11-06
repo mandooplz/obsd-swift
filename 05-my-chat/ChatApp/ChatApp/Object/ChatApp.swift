@@ -84,8 +84,8 @@ final class ChatApp: Sendable {
             return
         }
         
-        // compute
         do {
+            // compute
             try await serverFlow.subscribe(
                 clientId: clientId,
                 onText: { [weak self] textData in
@@ -104,6 +104,8 @@ final class ChatApp: Sendable {
                     }
                 }
             )
+            
+            // mutate
             isSubscribed = true
         } catch {
             logger.error("Failed to subscribe: \(error.localizedDescription)")

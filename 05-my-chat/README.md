@@ -5,6 +5,8 @@
 ## 관련 내용
 - 마이크로서비스, IDP, 인증 및 인가, Flow의 실행 주체
 - 클라이언트의 서버 구독 디자인
+- 하나의 기능은 여러 가지 디자인으로 구현될 수 있다.
+- Flow의 실행은 값의 연산에 해당함
 
 ## 서버 실행 방법
 ```bash
@@ -12,7 +14,7 @@
 cd ChatServer
 
 # 모든 IP 주소에 대해 8080 포트 접근 허용
-swift run ChatServer serve --hostname 0.0.0.0 --port 8080
+swift run ChatServer serve --hostname 0.0.0.0 --poㄸrt 8080
 ```
 - 실행 후 `curl http://localhost:8080/` 명령으로 서버 응답을 확인하세요.
 - Vapor 환경변수(`DATABASE_URL` 등)를 사용하는 경우 `.env` 파일을 생성해 원하는 값을 지정할 수 있습니다.
