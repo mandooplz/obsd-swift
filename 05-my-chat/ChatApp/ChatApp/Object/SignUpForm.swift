@@ -61,7 +61,11 @@ public final class SignUpForm: Sendable {
                 logger.error("Authentication failed right after register")
                 return
             }
-            await owner.completeAuthentication(with: credential)
+            
+            owner.credential = credential
+            owner.signInForm = nil
+            owner.signUpForm = nil
+
         } catch {
             logger.error("Post-registration authentication failed: \(error)")
         }

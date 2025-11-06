@@ -24,21 +24,40 @@ actor ChatServerFlow {
     // MARK: flow
     @concurrent
     func check() async throws {
+        logger.start()
+        
+        logger.info("makeRequest")
         let request = try makeRequest(path: nil, method: .get)
+        
+        logger.info("networking")
         let (_, response) = try await session.data(for: request)
+        
+        logger.info("validate")
         try validate(response: response)
+        
+        logger.end()
+        return
     }
     
     @concurrent
     func addMessage(ticket: NewMsgTicket) async throws {
+        logger.start()
+        
+        logger.info("makeRequest")
         var request = try makeRequest(path: "addMessage", method: .post)
         
+        logger.info("json encoding")
         let encoder = makeJSONEncoder()
         request.httpBody = try encoder.encode(ticket)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
+        logger.info("networking")
         let (_, response) = try await session.data(for: request)
+        
+        logger.info("validate")
         try validate(response: response)
+        
+        logger.end()
     }
 
     @concurrent

@@ -30,7 +30,10 @@ final class ChatApp: Sendable {
     var sortedMessages: [Message] {
         return messages.sorted(using: SortDescriptor(\.createdAt))
     }
-    private(set) var isSubscribed: Bool = false
+    
+    var messageInput: String = ""
+    
+    private(set) var isSubscribed: Bool = false //
     
     
     // MARK: action
@@ -39,12 +42,13 @@ final class ChatApp: Sendable {
         
         // capture
         guard signInForm == nil, signUpForm == nil else {
-            logger.error("Auth forms already exist")
+            logger.error("이미 SetUp 완료된 상태입니다.")
             return
         }
         
-        signInForm = SignInForm(owner: self)
-        signUpForm = SignUpForm(owner: self)
+        // mutate
+        self.signInForm = SignInForm(owner: self)
+        self.signUpForm = SignUpForm(owner: self)
     }
     
     func fetchMessages() async {
@@ -67,9 +71,10 @@ final class ChatApp: Sendable {
             return
         }
     }
-    
     func subscribeServer() async {
         logger.start()
+        
+        // capture
         guard isSubscribed == false else {
             logger.info("Already subscribed to server")
             return
@@ -84,14 +89,8 @@ final class ChatApp: Sendable {
             try await serverFlow.subscribe(
                 clientId: clientId,
                 onText: { [weak self] textData in
-                    Task.detached { [weak self] in
-                        await self?.handleIncomingText(textData)
-                    }
-                },
-                onData: { [weak self] data in
-                    guard let text = String(data: data, encoding: .utf8) else { return }
-                    Task.detached { [weak self] in
-                        await self?.handleIncomingText(text)
+                    Task { [weak self] in
+                        await self?.fetchMessages()
                     }
                 },
                 onClose: { [weak self] error in
@@ -109,52 +108,37 @@ final class ChatApp: Sendable {
         } catch {
             logger.error("Failed to subscribe: \(error.localizedDescription)")
             isSubscribed = false
+            return
         }
     }
-
-    func sendMessage(content: String) async {
+    func sendMessage() async {
         logger.start()
-        let trimmed = content.trimmingCharacters(in: .whitespacesAndNewlines)
+        
+        // capture
+        let trimmed = messageInput.trimmingCharacters(in: .whitespacesAndNewlines)
         guard trimmed.isEmpty == false else {
-            logger.info("Attempted to send empty message; ignored")
+            logger.error("messageInput이 빈 값입니다.")
             return
         }
         guard let credential else {
-            logger.error("No credential available for sending message")
+            logger.error("메시지를 보내기 위한 Credential이 존재하지 않습니다.")
             return
         }
-        let ticket = NewMsgTicket(client: clientId,
-                                  credential: credential,
-                                  content: trimmed)
-        do {
-            try await serverFlow.addMessage(ticket: ticket)
-            await fetchMessages()
-        } catch {
-            logger.error("Failed to send message: \(error.localizedDescription)")
-        }
-    }
-
-
-    // MARK: value
-    @MainActor
-    private func handleIncomingText(_ text: String) {
-        guard let data = text.data(using: .utf8) else { return }
         
-        let decoder = JSONDecoder()
-        decoder.dateDecodingStrategy = .iso8601
-        guard let event = try? decoder.decode(NewMsgEvent.self, from: data) else {
-            return
+        
+        do {
+            // compute
+            let ticket = NewMsgTicket(client: clientId,
+                                      credential: credential,
+                                      content: trimmed)
+            try await serverFlow.addMessage(ticket: ticket)
+            
+            // mutate
+            self.messageInput = ""
+        } catch {
+            logger.error(error)
         }
-        guard event.client != clientId else { return }
-        Task { await self.fetchMessages() }
-    }
-
-    func completeAuthentication(with credential: Credential) async {
-        self.credential = credential
-        signInForm = nil
-        signUpForm = nil
-        isSubscribed = false
-        await fetchMessages()
-        await subscribeServer()
+        
+        logger.end()
     }
 }
