@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		CE2720E02EBA277C00950247 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = CE2720DF2EBA277C00950247 /* SwiftLogger */; };
+		CEF016842EBD9D1500B975B9 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = CEF016832EBD9D1500B975B9 /* Collections */; };
+		CEF016862EBD9D1500B975B9 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = CEF016852EBD9D1500B975B9 /* DequeModule */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,7 +29,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CEF016842EBD9D1500B975B9 /* Collections in Frameworks */,
 				CE2720E02EBA277C00950247 /* SwiftLogger in Frameworks */,
+				CEF016862EBD9D1500B975B9 /* DequeModule in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,6 +75,8 @@
 			name = ChatApp;
 			packageProductDependencies = (
 				CE2720DF2EBA277C00950247 /* SwiftLogger */,
+				CEF016832EBD9D1500B975B9 /* Collections */,
+				CEF016852EBD9D1500B975B9 /* DequeModule */,
 			);
 			productName = ChatApp;
 			productReference = CE1D3ABE2EBA1F1800B1FC93 /* ChatApp.app */;
@@ -102,6 +108,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				CE2720DE2EBA277C00950247 /* XCRemoteSwiftPackageReference "swift-logger" */,
+				CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = CE1D3ABF2EBA1F1800B1FC93 /* Products */;
@@ -279,10 +286,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -311,10 +318,10 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = nonisolated;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -351,6 +358,14 @@
 				kind = branch;
 			};
 		};
+		CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -358,6 +373,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE2720DE2EBA277C00950247 /* XCRemoteSwiftPackageReference "swift-logger" */;
 			productName = SwiftLogger;
+		};
+		CEF016832EBD9D1500B975B9 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		CEF016852EBD9D1500B975B9 /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

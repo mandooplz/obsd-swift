@@ -8,6 +8,7 @@ import Foundation
 import SwiftLogger
 
 private let logger = SwiftLogger("ChatServer")
+private let sampleIds = Set([IDCard(email: "example@gmail.com", password: "123456")])
 
 
 // MARK: Object
@@ -18,7 +19,7 @@ final class ChatServer: Sendable {
     
     
     // MARK: state
-    var idCards: Set<IDCard> = []
+    var idCards: Set<IDCard> = sampleIds
     func isExist(email: String, password: String) -> Bool {
         idCards.first { $0.isMatched(email, password) } != nil
     }
@@ -38,12 +39,10 @@ final class ChatServer: Sendable {
     }
     
     var subscribers: Dictionary<UUID, ClientFlow> = [:]
-    func sendEvent(_ event: NewMsgEvent) -> Void {
+    func sendEvent(_ event: NewMsgEvent) async {
         logger.start()
         
-        for subscriber in subscribers.values {
-            subscriber.execute(event: event)
-        }
+        await Hub.shared.sendWithout(clientId: event.client, event: event)
     }
     
     
@@ -57,6 +56,7 @@ final class ChatServer: Sendable {
         // mutate
         let tickets = newMessageTickets
         newMessageTickets.removeAll()
+        
         for ticket in tickets {
             let message = Message(senderEmail: ticket.credential.email,
                                   content: ticket.content,

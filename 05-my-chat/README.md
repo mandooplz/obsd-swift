@@ -3,8 +3,12 @@
 이 저장소는 Vapor 기반 서버(`ChatServer`)와 SwiftUI 기반 iOS 클라이언트(`ChatApp`)로 구성된 단순 채팅 예제입니다. 마이크로서비스, 인증/인가 흐름, 그리고 WebSocket 구독 로직을 작게 재현하여 참고용으로 살펴볼 수 있게 구성했습니다.
 
 ## 관련 내용
+- 클라이언트와 서버 간 연결, WebSocket으로 전달받는 이벤트는 UserInterface에서 처리해야 한다.
 - 마이크로서비스, IDP, 인증 및 인가, Flow의 실행 주체
 - 클라이언트의 서버 구독 디자인
+- 하나의 기능은 여러 가지 디자인으로 구현될 수 있다.
+- Flow의 실행은 값의 연산에 해당함
+
 
 ## 서버 실행 방법
 ```bash
@@ -12,7 +16,7 @@
 cd ChatServer
 
 # 모든 IP 주소에 대해 8080 포트 접근 허용
-swift run ChatServer serve --hostname 0.0.0.0 --port 8080
+swift run ChatServer serve --hostname 0.0.0.0 --poㄸrt 8080
 ```
 - 실행 후 `curl http://localhost:8080/` 명령으로 서버 응답을 확인하세요.
 - Vapor 환경변수(`DATABASE_URL` 등)를 사용하는 경우 `.env` 파일을 생성해 원하는 값을 지정할 수 있습니다.
