@@ -12,6 +12,7 @@ struct NewMsgEvent: Sendable, Hashable, Codable {
     let id: UUID
     let client: UUID // 전송자의 ClientID
     let senderEmail: String
+    
     let content: String
     
     init(id: UUID = UUID(), client: UUID, senderEmail: String, content: String) {

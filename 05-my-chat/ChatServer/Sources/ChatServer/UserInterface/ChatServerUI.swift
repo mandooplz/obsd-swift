@@ -1,10 +1,8 @@
 import Vapor
 import SwiftLogger
 
-private let logger = SwiftLogger("MessageBroker")
-
 // MARK: Flow
-func routes(_ app: Application) throws {
+func routeChatServer(_ app: Application) throws {
     // 확인 - GET /
     app.get { req async in
         "This is TestServer. Welcome!"
@@ -96,7 +94,7 @@ func routes(_ app: Application) throws {
         }
         
         guard let clientId = UUID(uuidString: token) else {
-            logger.error("Token이 UUID 형식이 아닙니다.")
+            req.logger.error("Token이 UUID 형식이 아닙니다.")
             return .badRequest
         }
         
@@ -108,53 +106,5 @@ func routes(_ app: Application) throws {
         }
         
         return .accepted
-    }
-    
-    
-    // 구독 Flow
-    // WS /ws?token={UUID}
-    // ws://host:8080/ws?token=(UUID형식 문자열값)
-    app.webSocket("ws") { req, ws in
-        Task {
-            do {
-                // clientId 추출
-                guard let token = req.query[String.self, at: "token"] else {
-                    req.logger.error("Client에서 token이 전달되지 않았습니다.")
-                    try await ws.send("token 쿼리 매개변수가 존재하지 않습니다.")
-                    try await ws.close()
-                    return
-                }
-                guard let clientId = UUID(uuidString: token) else {
-                    req.logger.error("Token이 UUID 형식이 아닙니다.")
-                    try await ws.send("token이 UUID 형식이 아닙니다.")
-                    return
-                }
-                
-                await Hub.shared.join(clientId: clientId, socket: ws)
-                
-                // 5) 종료 처리
-                ws.onClose.whenComplete { outcome in
-                    Task {
-                        // 연결 종료 사유 추출 (정상/에러)
-                        let reason: String
-                        switch outcome {
-                        case .success:
-                            reason = "client closed"
-                        case .failure(let error):
-                            reason = "error: \(error.localizedDescription)"
-                        }
-
-                        logger.info("WebSocket closed: \(clientId) - \(reason)")
-                        await Hub.shared.leave(clientId: clientId)
-                        await MainActor.run {
-                            ChatServer.shared.subscribers.removeValue(forKey: clientId)
-                        }
-                    }
-                }
-            } catch {
-                req.logger.error("Upgrade auth failed: \(error.localizedDescription)")
-                ws.close(promise: nil)
-            }
-        }
     }
 }
