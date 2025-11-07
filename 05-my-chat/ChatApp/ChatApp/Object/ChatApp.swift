@@ -21,7 +21,7 @@ final class ChatApp: Sendable {
 
     // MARK: state
     let serverFlow = ChatServerFlow.shared
-    let clientId = UUID() // 객체마다 고유함
+    let clientId = UUID()
     
     var signInForm: SignInForm? = nil
     var signUpForm: SignUpForm? = nil
@@ -38,8 +38,6 @@ final class ChatApp: Sendable {
     }
     
     var messageInput: String = ""
-    
-    private(set) var isSubscribed: Bool = false //
     
     
     // MARK: action
@@ -77,63 +75,6 @@ final class ChatApp: Sendable {
             return
         }
     }
-    
-    func processMsgEvents() async {
-        // mutate
-        while !newMsgEvents.isEmpty {
-            let newMsgEvent = newMsgEvents.removeFirst()
-            
-            let newMessgae = Message(senderEmail: newMsgEvent.senderEmail,
-                                     content: newMsgEvent.content,
-                                     createdAt: .now)
-            self.messages.insert(newMessgae)
-        }
-    }
-//    func subscribeServer() async {
-//        logger.start()
-//        
-//        // capture
-//        guard isSubscribed == false else {
-//            logger.info("Already subscribed to server")
-//            return
-//        }
-//        guard credential != nil else {
-//            logger.error("Credential missing; subscription aborted")
-//            return
-//        }
-//        
-//        do {
-//            // compute
-//            try await serverFlow.subscribe(
-//                clientId: clientId,
-//                onText: { [weak self] textData in
-//                    // newMsg 이벤트 시 실행할 Flow
-//                    Task {
-//                        await self?.handleWebSocketText(textData)
-//                    }
-//                },
-//                onClose: { [weak self] error in
-//                    // close 이벤트시 실행할 Flow
-//                    if let error {
-//                        logger.error("WebSocket closed with error: \(error.localizedDescription)")
-//                    } else {
-//                        logger.info("WebSocket closed normally")
-//                    }
-//                    
-//                    Task { @MainActor [weak self] in
-//                        self?.isSubscribed = false
-//                    }
-//                }
-//            )
-//            
-//            // mutate
-//            isSubscribed = true
-//        } catch {
-//            logger.error("Failed to subscribe: \(error.localizedDescription)")
-//            isSubscribed = false
-//            return
-//        }
-//    }
     func sendMessage() async {
         logger.start()
         
@@ -164,18 +105,16 @@ final class ChatApp: Sendable {
         
         logger.end()
     }
-
-    private func handleWebSocketText(_ text: String) async {
-        guard let data = text.data(using: .utf8) else {
-            logger.error("웹소켓 메시지를 Data로 변환할 수 없습니다: \(text)")
-            return
-        }
-
-        do {
-            _ = try JSON.decoder.decode(NewMsgEvent.self, from: data)
-            await fetchMessages()
-        } catch {
-            logger.error("서버에서 받은 메시지: \(text)")
+    
+    func processMsgEvents() async {
+        // mutate
+        while !newMsgEvents.isEmpty {
+            let newMsgEvent = newMsgEvents.removeFirst()
+            
+            let newMessgae = Message(senderEmail: newMsgEvent.senderEmail,
+                                     content: newMsgEvent.content,
+                                     createdAt: .now)
+            self.messages.insert(newMessgae)
         }
     }
 }
