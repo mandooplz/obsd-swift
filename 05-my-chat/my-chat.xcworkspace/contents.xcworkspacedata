@@ -5,6 +5,12 @@
       location = "group:README.md">
    </FileRef>
    <FileRef
+      location = "group:MyChatValues">
+   </FileRef>
+   <FileRef
+      location = "group:ChatServerFlows">
+   </FileRef>
+   <FileRef
       location = "group:ChatServer">
    </FileRef>
    <FileRef
