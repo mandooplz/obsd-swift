@@ -31,6 +31,8 @@ struct ChatServerRoutes: RouteCollection {
 
     private func register(_ req: Request) async throws -> HTTPStatus {
         let credential = try req.content.decode(Credential.self)
+
+        // flow
         let chatServerRef = await ChatServer.shared
         await chatServerRef.register(credential: credential)
         return .accepted
@@ -38,6 +40,8 @@ struct ChatServerRoutes: RouteCollection {
 
     private func auth(_ req: Request) async throws -> Bool {
         let credential = try req.content.decode(Credential.self)
+
+        // flow
         let chatServerRef = await ChatServer.shared
         let identified = await chatServerRef.isExist(email: credential.email,
                                                      password: credential.password)
@@ -56,6 +60,7 @@ struct ChatServerRoutes: RouteCollection {
             throw Abort(.badRequest)
         }
 
+        // flow
         let chatServerRef = await ChatServer.shared
         let identified = await chatServerRef.isExist(email: credential.email,
                                                      password: credential.password)
