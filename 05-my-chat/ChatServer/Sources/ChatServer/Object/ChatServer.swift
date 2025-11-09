@@ -19,7 +19,7 @@ final class ChatServer: Sendable {
     
     
     // MARK: state
-    var idCards: Set<IDCard> = sampleIds
+    var idCards: Set<I DCard> = sampleIds
     func isExist(email: String, password: String) -> Bool {
         idCards.first { $0.isMatched(email, password) } != nil
     }
