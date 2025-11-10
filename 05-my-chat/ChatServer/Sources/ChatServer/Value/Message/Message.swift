@@ -8,17 +8,17 @@ import Foundation
 import Vapor
 
 
-// MARK: value
-struct Message: Sendable, Hashable, Content {
-    let id: UUID
-    let senderEmail: String
-    let content: String
-    let createdAt: Date
-    
-    init(id: UUID = UUID(), senderEmail: String, content: String, createdAt: Date) {
-        self.id = id
-        self.senderEmail = senderEmail
-        self.content = content
-        self.createdAt = createdAt
-    }
-}
+//// MARK: value
+//struct Message: Sendable, Hashable, Content {
+//    let id: UUID
+//    let senderEmail: String
+//    let content: String
+//    let createdAt: Date
+//    
+//    init(id: UUID = UUID(), senderEmail: String, content: String, createdAt: Date) {
+//        self.id = id
+//        self.senderEmail = senderEmail
+//        self.content = content
+//        self.createdAt = createdAt
+//    }
+//}
