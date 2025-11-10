@@ -7,7 +7,7 @@
 import CoreData 
 
 
-// MARK: Flow Interface
+// MARK: Interface
 protocol ItemBoxFlowInterface: Sendable {
     @concurrent func getItemModels() async -> [ItemSnapshot]
     @concurrent func addItemModel() async
@@ -17,8 +17,7 @@ protocol ItemBoxFlowInterface: Sendable {
 
 // MARK: Flow
 struct ItemBoxFlow: ItemBoxFlowInterface {
-    @concurrent
-    func getItemModels() async -> [ItemSnapshot] {
+    @concurrent func getItemModels() async -> [ItemSnapshot] {
         let container = await PersistenceController.shared.container
         
         return await withCheckedContinuation { continuation in
@@ -44,8 +43,7 @@ struct ItemBoxFlow: ItemBoxFlowInterface {
         }
     }
     
-    @concurrent
-    func addItemModel() async {
+    @concurrent func addItemModel() async {
         let container = await PersistenceController.shared.container
         
         await withCheckedContinuation { continuation in
@@ -68,8 +66,7 @@ struct ItemBoxFlow: ItemBoxFlowInterface {
         }
     }
     
-    @concurrent
-    func deleteItemModel(_ snapshot: ItemSnapshot) async {
+    @concurrent func deleteItemModel(_ snapshot: ItemSnapshot) async {
         let container = await PersistenceController.shared.container
         
         await withCheckedContinuation { continuation in

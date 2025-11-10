@@ -7,7 +7,7 @@
 
 
 // MARK: value
-nonisolated enum SystemMode: Sendable, Hashable {
-    case test
-    case real
-}
+//nonisolated enum SystemMode: Sendable, Hashable {
+//    case test
+//    case real
+//}

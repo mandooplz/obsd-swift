@@ -10,7 +10,7 @@ import SwiftUI
 // MARK: View
 struct ItemBoardView: View {
     // MARK: model
-    @State var itemBoardRef = ItemBoard(mode: .real)
+    @State var itemBoardRef = ItemBoard()
     
     
     // MARK: view

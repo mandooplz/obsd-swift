@@ -11,14 +11,8 @@ import Foundation
 @MainActor @Observable
 internal final class ItemBoard: Sendable {
     // MARK: core
-    init(mode: SystemMode = .test) {
-        // mode에 따라 서로 다른 ItemBoard를 사용
-        switch mode {
-        case .test:
-            self.itemBoxFlow = ItemBoxFlowMock()
-        case .real:
-            self.itemBoxFlow = ItemBoxFlow()
-        }
+    init(itemBoxFlow: any ItemBoxFlowInterface = ItemBoxFlow()) {
+        self.itemBoxFlow = itemBoxFlow
     }
     
     
