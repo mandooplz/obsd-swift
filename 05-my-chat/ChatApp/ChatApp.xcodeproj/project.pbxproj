@@ -115,7 +115,6 @@
 			packageReferences = (
 				CE2720DE2EBA277C00950247 /* XCRemoteSwiftPackageReference "swift-logger" */,
 				CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				CE972F602EBF82E10068AE0B /* XCLocalSwiftPackageReference "../ChatServerFlows" */,
 				CE972F632EBF82EC0068AE0B /* XCLocalSwiftPackageReference "../MyChatValues" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -358,10 +357,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		CE972F602EBF82E10068AE0B /* XCLocalSwiftPackageReference "../ChatServerFlows" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../ChatServerFlows;
-		};
 		CE972F632EBF82EC0068AE0B /* XCLocalSwiftPackageReference "../MyChatValues" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../MyChatValues;
