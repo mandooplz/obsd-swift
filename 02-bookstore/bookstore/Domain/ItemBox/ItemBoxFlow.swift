@@ -4,8 +4,7 @@
 //
 //  Created by 김민우 on 10/20/25.
 //
-import CoreData
-
+import CoreData 
 
 
 // MARK: Flow Interface
@@ -24,7 +23,8 @@ struct ItemBoxFlow: ItemBoxFlowInterface {
         
         return await withCheckedContinuation { continuation in
             container.performBackgroundTask { context in
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                let policy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+                context.mergePolicy = policy
                 
                 let request: NSFetchRequest<ItemModel> = ItemModel.fetchRequest()
                 request.sortDescriptors = [NSSortDescriptor(keyPath: \ItemModel.timestamp, ascending: true)]
@@ -50,7 +50,8 @@ struct ItemBoxFlow: ItemBoxFlowInterface {
         
         await withCheckedContinuation { continuation in
             container.performBackgroundTask { context in
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                let policy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+                context.mergePolicy = policy
                 
                 let object = ItemModel(context: context)
                 object.id = UUID()
@@ -73,7 +74,8 @@ struct ItemBoxFlow: ItemBoxFlowInterface {
         
         await withCheckedContinuation { continuation in
             container.performBackgroundTask { context in
-                context.mergePolicy = NSMergeByPropertyObjectTrumpMergePolicy
+                let policy = NSMergePolicy(merge: .mergeByPropertyObjectTrumpMergePolicyType)
+                context.mergePolicy = policy
                 
                 let request: NSFetchRequest<ItemModel> = ItemModel.fetchRequest()
                 request.fetchLimit = 1
