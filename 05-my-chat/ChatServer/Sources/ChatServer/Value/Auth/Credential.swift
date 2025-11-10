@@ -9,8 +9,8 @@ import Vapor
 
 
 // MARK: Value
-struct Credential: Sendable, Hashable, Content {
-    let email: String
-    let password: String
-}
-
+//struct Credential: Sendable, Hashable, Content {
+//    let email: String
+//    let password: String
+//}
+//

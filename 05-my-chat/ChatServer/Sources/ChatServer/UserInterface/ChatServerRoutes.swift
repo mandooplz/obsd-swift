@@ -1,5 +1,6 @@
 import Vapor
 import SwiftLogger
+import MyChatValues
 
 // MARK: - Routes 
 struct ChatServerRoutes: RouteCollection {

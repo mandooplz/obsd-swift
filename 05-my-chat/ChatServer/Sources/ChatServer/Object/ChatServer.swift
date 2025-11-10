@@ -6,6 +6,7 @@
 //
 import Foundation
 import SwiftLogger
+import MyChatValues
 
 private let logger = SwiftLogger("ChatServer")
 private let sampleIds = Set([IDCard(email: "example@gmail.com", password: "123456")])
