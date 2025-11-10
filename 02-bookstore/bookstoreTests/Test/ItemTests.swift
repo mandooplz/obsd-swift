@@ -15,7 +15,7 @@ struct ItemTests {
         let itemBoard: ItemBoard
         let item: Item
         init() async throws {
-            self.itemBoard = await ItemBoard()
+            self.itemBoard = await ItemBoard(itemBoxFlow: ItemBoxFlowMock())
             self.item = try await getItemForTest(itemBoard)
         }
         
