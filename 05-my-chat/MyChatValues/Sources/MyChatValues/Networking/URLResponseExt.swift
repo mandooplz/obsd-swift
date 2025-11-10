@@ -8,7 +8,7 @@ import Foundation
 
 
 // MARK: Value
-extension URLResponse {
+public extension URLResponse {
     func validateStatusCode(allowedStatusCodes: Range<Int> = 200..<300) throws {
         guard let httpResponse = self as? HTTPURLResponse else {
             throw MyError.unexpectedResponse

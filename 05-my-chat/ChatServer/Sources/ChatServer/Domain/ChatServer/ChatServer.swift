@@ -6,6 +6,7 @@
 //
 import Foundation
 import SwiftLogger
+import MyChatValues
 
 private let logger = SwiftLogger("ChatServer")
 private let sampleIds = Set([IDCard(email: "example@gmail.com", password: "123456")])
@@ -19,7 +20,7 @@ final class ChatServer: Sendable {
     
     
     // MARK: state
-    var idCards: Set<I DCard> = sampleIds
+    var idCards: Set<IDCard> = sampleIds
     func isExist(email: String, password: String) -> Bool {
         idCards.first { $0.isMatched(email, password) } != nil
     }

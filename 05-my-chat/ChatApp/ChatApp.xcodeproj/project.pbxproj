@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		CE2720E02EBA277C00950247 /* SwiftLogger in Frameworks */ = {isa = PBXBuildFile; productRef = CE2720DF2EBA277C00950247 /* SwiftLogger */; };
-		CE972F622EBF82E10068AE0B /* ChatServerFlows in Frameworks */ = {isa = PBXBuildFile; productRef = CE972F612EBF82E10068AE0B /* ChatServerFlows */; };
 		CE972F652EBF82EC0068AE0B /* MyChatValues in Frameworks */ = {isa = PBXBuildFile; productRef = CE972F642EBF82EC0068AE0B /* MyChatValues */; };
 		CEF016842EBD9D1500B975B9 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = CEF016832EBD9D1500B975B9 /* Collections */; };
 		CEF016862EBD9D1500B975B9 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = CEF016852EBD9D1500B975B9 /* DequeModule */; };
@@ -33,7 +32,6 @@
 			files = (
 				CE972F652EBF82EC0068AE0B /* MyChatValues in Frameworks */,
 				CEF016842EBD9D1500B975B9 /* Collections in Frameworks */,
-				CE972F622EBF82E10068AE0B /* ChatServerFlows in Frameworks */,
 				CE2720E02EBA277C00950247 /* SwiftLogger in Frameworks */,
 				CEF016862EBD9D1500B975B9 /* DequeModule in Frameworks */,
 			);
@@ -81,7 +79,6 @@
 				CE2720DF2EBA277C00950247 /* SwiftLogger */,
 				CEF016832EBD9D1500B975B9 /* Collections */,
 				CEF016852EBD9D1500B975B9 /* DequeModule */,
-				CE972F612EBF82E10068AE0B /* ChatServerFlows */,
 				CE972F642EBF82EC0068AE0B /* MyChatValues */,
 			);
 			productName = ChatApp;
@@ -115,7 +112,6 @@
 			packageReferences = (
 				CE2720DE2EBA277C00950247 /* XCRemoteSwiftPackageReference "swift-logger" */,
 				CEF016822EBD9D1500B975B9 /* XCRemoteSwiftPackageReference "swift-collections" */,
-				CE972F602EBF82E10068AE0B /* XCLocalSwiftPackageReference "../ChatServerFlows" */,
 				CE972F632EBF82EC0068AE0B /* XCLocalSwiftPackageReference "../MyChatValues" */,
 			);
 			preferredProjectObjectVersion = 77;
@@ -358,10 +354,6 @@
 /* End XCConfigurationList section */
 
 /* Begin XCLocalSwiftPackageReference section */
-		CE972F602EBF82E10068AE0B /* XCLocalSwiftPackageReference "../ChatServerFlows" */ = {
-			isa = XCLocalSwiftPackageReference;
-			relativePath = ../ChatServerFlows;
-		};
 		CE972F632EBF82EC0068AE0B /* XCLocalSwiftPackageReference "../MyChatValues" */ = {
 			isa = XCLocalSwiftPackageReference;
 			relativePath = ../MyChatValues;
@@ -392,10 +384,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CE2720DE2EBA277C00950247 /* XCRemoteSwiftPackageReference "swift-logger" */;
 			productName = SwiftLogger;
-		};
-		CE972F612EBF82E10068AE0B /* ChatServerFlows */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ChatServerFlows;
 		};
 		CE972F642EBF82EC0068AE0B /* MyChatValues */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,7 +1,8 @@
 import Vapor
 import SwiftLogger
+import MyChatValues
 
-// MARK: - Routes 
+// MARK: - Routes
 struct ChatServerRoutes: RouteCollection {
     func boot(routes: any RoutesBuilder) throws {
         // 확인 - GET /
@@ -118,3 +119,6 @@ struct ChatServerRoutes: RouteCollection {
         return .accepted
     }
 }
+
+// MARK: Value
+extension Message: @retroactive Content { }

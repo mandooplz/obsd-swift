@@ -9,6 +9,7 @@ import Foundation
 
 // MARK: Value
 nonisolated public struct Credential: Sendable, Hashable, Codable {
+    // MARK: core
     public let email: String
     public let password: String
     

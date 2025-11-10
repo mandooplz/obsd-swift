@@ -11,14 +11,16 @@ private let logger = SwiftLogger("ChatServerURL")
 
 
 // MARK: Value
-struct ChatServerURL {
+public struct ChatServerURL: Sendable {
     // MARK: core
     let httpURL = URL(string: "http://172.30.1.69:8080")!
     let wsURL = URL(string: "ws://172.30.1.69:8080")!
     
+    public init() { }
+    
      
     // MARK: operator
-    func getHTTPRequest(path: String?, method: HTTPMethod, queryItems: [URLQueryItem] = []) throws -> URLRequest {
+    public func getHTTPRequest(path: String?, method: HTTPMethod, queryItems: [URLQueryItem] = []) throws -> URLRequest {
         // configure URL
         var url = httpURL
         if let path, path.isEmpty == false {
@@ -43,7 +45,7 @@ struct ChatServerURL {
         return request
     }
     
-    func startWSTask(path: String, queryItems: [URLQueryItem]) throws -> URLSessionWebSocketTask {
+    public func startWSTask(path: String, queryItems: [URLQueryItem]) throws -> URLSessionWebSocketTask {
         logger.info("add path: \(path)")
         var url = wsURL
         if path.isEmpty == false {
@@ -71,12 +73,12 @@ struct ChatServerURL {
     
     
     // MARK: value
-    enum HTTPMethod: String {
+    public enum HTTPMethod: String {
         case get = "GET"
         case post = "POST"
     }
     
-    enum Error: Swift.Error {
+    public enum Error: Swift.Error {
         case invalidURL(String)
         case unexpectedResponse
         case unexpectedStatusCode(Int)

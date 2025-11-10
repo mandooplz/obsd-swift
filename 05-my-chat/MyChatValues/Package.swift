@@ -12,9 +12,15 @@ let package = Package(
             targets: ["MyChatValues"]
         ),
     ],
+    dependencies: [
+        .package(url: "https://github.com/team-budjam/swift-logger.git", from: "0.1.0")
+    ],
     targets: [
         .target(
-            name: "MyChatValues"
+            name: "MyChatValues",
+            dependencies: [
+                .product(name: "SwiftLogger", package: "swift-logger")
+            ]
         ),
         .testTarget(
             name: "MyChatValuesTests",

@@ -12,7 +12,7 @@ private let logger = SwiftLogger("ChatServerFlow")
 
 
 // MARK: Flow
-public actor ChatServerFlow {
+public nonisolated struct ChatServerFlow: Sendable {
     // MARK: value
     public static let shared = ChatServerFlow()
     private init() { }

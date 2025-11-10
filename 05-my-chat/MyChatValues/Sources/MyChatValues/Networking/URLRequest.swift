@@ -8,7 +8,7 @@ import Foundation
 
 
 // MARK: Value
-extension URLRequest {
+public extension URLRequest {
     // MARK: operator
     func getDataByURLSession() async throws -> (Data, URLResponse) {
         return try await URLSession.shared.data(for: self)
